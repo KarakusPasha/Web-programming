@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Web Tasarım Lab Notları: HTML, CSS, JavaScript</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#5d6679;--ac:#4f46e5;--ac2:#e0e7ff;--bd:#dfe3ee;--code:#0f172a;--codetx:#e2e8f0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1220;--card:#171c2e;--tx:#e8ecf7;--mu:#98a2ba;--ac:#8b93ff;--ac2:#252b4a;--bd:#2a3150;--code:#0a0d18}}
+*{box-sizing:border-box}html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:32px 18px 18px;text-align:center;background:linear-gradient(135deg,#4f46e5,#9333ea);color:#fff}
+header h1{margin:0 0 6px;font-size:1.7rem}header p{margin:0;opacity:.9}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:10px;background:var(--card);border-bottom:1px solid var(--bd)}
+nav button{border:1px solid var(--bd);background:var(--bg);color:var(--tx);padding:8px 14px;border-radius:999px;font:inherit;font-size:.9rem;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+main{max-width:920px;margin:0 auto;padding:16px}
+#q{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:0 0 16px}
+.card h3{margin:0 0 4px;font-size:1.1rem}.card h3 span{background:var(--ac2);color:var(--ac);font-size:.72rem;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.card p{margin:4px 0 10px;color:var(--mu);font-size:.94rem}
+code{background:var(--ac2);color:var(--ac);padding:1px 6px;border-radius:5px;font-size:.88em}
+.cw{position:relative}
+pre{margin:0;background:var(--code);color:var(--codetx);padding:14px;border-radius:10px;overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;tab-size:2}
+.cp{position:absolute;top:6px;right:6px;font-size:.72rem;padding:3px 9px;border-radius:6px;border:0;background:#ffffff22;color:#fff;cursor:pointer}
+.pl{font-size:.78rem;font-weight:700;color:var(--ac);margin:10px 0 4px;letter-spacing:.04em;display:flex;gap:8px;align-items:center}
+.pl button{font-size:.78rem;padding:3px 10px;border-radius:6px;border:1px solid var(--ac);background:none;color:var(--ac);cursor:pointer}
+iframe{width:100%;border:1px solid var(--bd);border-radius:10px;background:#fff;display:block}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.sw div{border:1px solid var(--bd);border-radius:8px;overflow:hidden;font-size:.8rem}
+.sw i{display:block;height:34px}.sw b{display:block;padding:3px 7px;font-weight:600}.sw u{display:block;padding:0 7px 4px;color:var(--mu);text-decoration:none}
+.tip{border-left:4px solid var(--ac);background:var(--ac2);padding:10px 14px;border-radius:8px;margin:0 0 16px;font-size:.93rem}
+h2{margin:22px 0 10px;font-size:1.3rem}
+footer{text-align:center;color:var(--mu);font-size:.85rem;padding:20px}
+</style>
+</head>
+<body>
+<header><h1>Web Tasarım ve Programlama: Lab Notları</h1><p>Lab 1–4 · HTML → CSS → JavaScript · her kodun canlı önizlemesi var</p></header>
+<nav id="nav"></nav>
+<main><input id="q" type="search" placeholder="Konu ara… (örn. table, float, switch)"><div id="app"></div></main>
+<footer>Ders PDF’lerinden derlendi · Etiketlerin çoğu eski (HTML4) stildedir; modern projede CSS tercih edilir.</footer>
+<script>
+var T=[
+["Lab 1 · HTML-1",[
+["HTML iskeleti","HTML, tarayıcıda görünen belgeleri oluşturan işaretleme dilidir. Etiketler (<code>&lt;tag&gt;</code>) çiftler halinde açılıp <code>/</code> ile kapatılır. <code>head</code> sayfa bilgisi (title, meta), <code>body</code> ekranda görünen her şeydir. Dosyayı <code>.htm</code> / <code>.html</code> kaydedin.",
+`<html>
+<head>
+<title>Ilk sayfam</title>
+</head>
+<body>
+sayfama hoşgeldiniz
+</body>
+</html>`],
+["Başlık, paragraf ve yazı biçimleri","<code>h1…h6</code> (sayı büyüdükçe yazı küçülür), <code>p</code>, <code>center</code>, <code>b</code> kalın, <code>i</code> italik, <code>u</code> altı çizili. Etiket kapatılmazsa etkisi devam eder.",
+`<center><h1>SAYFAMA HOSGELDİNİZ</h1></center>
+<h3>Küçük başlık</h3>
+<p>HTML etiketleri ile</p>
+yazılar <b>koyu</b> <i>italik</i> ve <u>altı çizili</u> olarak yazabiliyorum`],
+["Satır sonu: br","Not defterinde Enter’a basmak HTML’de satır atlatmaz. Alt satır için <code>&lt;br&gt;</code> kullanılır (kapatılmaz).",
+`pazartesi<br>
+salı<br>
+çarşamba günleri dersimiz var<br>
+fakat perşembe ve cuma günleri yok`],
+["Font: yazı tipi, boyut, renk","<code>face</code> yazı adı, <code>size</code> 1 (en küçük) – 7 (en büyük), <code>color</code> renk adı ya da <code>#RRGGBB</code> (16’lık sayı sistemi, 00–ff). Sayfa rengi için <code>&lt;body bgcolor&gt;</code>. Font bilgisayarda yoksa tarayıcı varsayılanı kullanılır.",
+`<body bgcolor="#ff00ff">
+<font face="tahoma" size="7" color="green">ilkbahar</font><br>
+<font face="verdana" size="6" color="#00ff00">yaz</font><br>
+<font face="arial" size="5" color="yellow">sonbahar</font><br>
+<font face="comic sans ms" size="4" color="blue">kış</font>
+</body>`],
+["16 temel renk kodu","Renk = kırmızı-yeşil-mavi karışımı (RGB). Önizlemede her kutu kendi renginde.","colors"],
+["Sıralı liste (ol)","<code>type</code>: <code>1</code> rakam, <code>a</code> harf, <code>I</code> Romen; <code>start</code> başlangıç değeri; <code>li</code> madde. İç içe liste mümkündür.",
+`<ol type="1">
+<li>Bilgisayar
+  <ol type="a">
+    <li>blg 318</li>
+    <li>blg 416</li>
+  </ol>
+</li>
+<li>Makine
+  <ol type="a"><li>tsk 314</li></ol>
+</li>
+</ol>`],
+["Sırasız liste (ul)","<code>type</code>: <code>disc</code> dolu daire, <code>circle</code> boş daire, <code>square</code> dolu kare.",
+`<ul type="disc">
+<li>Kimya
+  <ul type="square"><li>blg 318</li><li>blg 416</li></ul>
+</li>
+<li>Fizik
+  <ul type="circle"><li>tsk 314</li><li>tsk 413</li></ul>
+</li>
+</ul>`],
+["Tanımlama listesi (dl, dt, dd)","<code>dt</code> madde başlığı, <code>dd</code> gövdesi. İşaret kullanılmaz, gövde girintili görünür.",
+`<font face="tahoma" size="5" color="red">NELER ÖĞRENDİK?</font>
+<dl>
+<dt><font color="blue">Sıralı listeler</font></dt>
+<dd>ol etiketi ile yapılır.</dd>
+<dt><font color="blue">Sırasız listeler</font></dt>
+<dd>ul etiketi ile yapılır.</dd>
+</dl>`],
+["Resim ekleme (img)","<code>src</code> yol, <code>width/height</code> ölçü (orantılı verin, yoksa resim çarpılır), <code>alt</code> resim yüklenmezse/üzerine gelince çıkan yazı, <code>align</code> hizalama. Büyük resmi küçük göstermek yerine önce görüntü programında küçültün.<br>Yollar: <code>resimler/kedi.jpg</code> (alt klasör), <code>../kedi.jpg</code> (bir üst klasör), <code>../../kedi.jpg</code> (iki üst), <code>http://site/kedi.jpg</code> (internet). Önizlemede dosya olmadığı için alt yazısı görünür.",
+`<img src="kedi.jpg" width="100" height="50" alt="yok" align="left">`],
+["Bağlantılar (a href)","Metin veya resme link verilir. <code>target</code>: <code>_blank</code> yeni pencere, <code>_self</code> aynı pencere, <code>_top</code>, <code>_parent</code>, çerçeve adı. Aynı sayfada yere gitmek için <code>#isim</code> + <code>&lt;a name=&quot;isim&quot;&gt;</code>; başka sayfada <code>sayfa2.htm#isim</code>.",
+`<a href="https://www.google.com" target="_blank">Siteye git</a><br>
+<a href="mailto:ali@ornek.com">Mail gönder</a><br>
+<a href="kedi.jpg">Resme link</a><br>
+<a href="#alt">Sayfa içinde aşağı git</a>
+<div style="height:120px"></div>
+<a name="alt">Buraya geldin</a>`],
+["Diğer link türleri","<code>href=&quot;deneme.doc&quot;</code> dosyayı indirir/açar, <code>../araba/arabalar.htm</code> üst klasöre çıkıp dosya açar, <code>ftp://…</code> ftp indirmesi, resme link: <code>&lt;a href&gt;&lt;img&gt;&lt;/a&gt;</code> (resme tıklayınca başka sayfa/resim açılır).",
+`<a href="aslan.jpg"><img src="kedi.jpg" alt="kediye tıkla"></a>`,"n"]
+]],
+["Lab 2 · HTML-2",[
+["Temel tablo","<code>table</code> tablo, <code>tr</code> satır, <code>td</code> hücre. En sade hali bu üç etiket yeterlidir.",
+`<table>
+<tr bgcolor="blue"><td>1.1</td><td>1.2</td></tr>
+<tr bgcolor="yellow"><td>2.1</td><td>2.2</td></tr>
+</table>`],
+["Başlıklı tablo (th, caption, border)","<code>th</code> sütun başlığı (kalın), <code>caption</code> tablo başlığı/alt yazısı (<code>align=top|bottom</code>), <code>border</code> çizgi kalınlığı (px).",
+`<table border="1">
+<caption align="bottom">ALT YAZI</caption>
+<tr><th>1.sütun</th><th>2.sütun</th></tr>
+<tr><td>1.1</td><td>1.2</td></tr>
+<tr><td>2.1</td><td>2.2</td></tr>
+</table>`],
+["Tablo parametreleri","<code>bordercolor</code> çerçeve rengi, <code>bgcolor</code> (tabloda/satırda/hücrede), <code>align=center</code>, <code>width/height</code>, <code>cellpadding</code> yazı-çerçeve boşluğu, <code>cellspacing</code> hücreler arası boşluk, <code>background</code> arka plan resmi. Boşluksuz çok uzun metin tabloyu kontrolsüz genişletir.",
+`<table border="1" bordercolor="red" bgcolor="yellow"
+  align="center" width="200" cellpadding="8" cellspacing="4">
+<tr><th>1.sütun</th><th>2.sütun</th></tr>
+<tr><td>1.1</td><td>1.2</td></tr>
+</table>`],
+["Hücre birleştirme (colspan, rowspan)","<code>colspan</code> yatay, <code>rowspan</code> dikey birleştirir. Birleşen hücrelerin <code>td</code> etiketleri silinir.",
+`<table border="1">
+<tr><td colspan="3">A</td><td>D</td></tr>
+<tr><td>E</td><td rowspan="2">F</td><td>G</td><td>H</td></tr>
+<tr><td>I</td><td>K</td><td>L</td></tr>
+</table>`],
+["Çerçeveler (frameset)","Sayfayı bölen eski yöntem. <code>cols</code> yan yana, <code>rows</code> alt alta (<code>*</code> kalan alan, <code>140,*</code> sabit+kalan). <code>border</code>, <code>name</code>, <code>src</code>, <code>marginwidth/height</code>, <code>scrolling</code> (yes/no/auto), <code>noresize</code>. <code>frameset</code>, <code>head</code>’ten sonra yazılır ve <code>body</code> kullanılmaz. Alt sayfalar (sayfa1.htm turuncu, sayfa2.htm mavi) ayrı dosyadır; önizlemede satır içi karşılığı gösterilir.",
+`<frameset rows="*,*">
+  <frameset cols="*,*">
+    <frame name="1" src="sayfa1.htm">
+    <frame name="2" src="sayfa2.htm">
+  </frameset>
+  <frame name="3" src="sayfa3.htm">
+</frameset>
+<!-- sayfa1.htm: <body bgcolor="orange"> -->
+<!-- sayfa2.htm: <body bgcolor="blue"> -->`,"",
+`<frameset rows="*,*"><frameset cols="*,*"><frame srcdoc="<body bgcolor=orange>"><frame srcdoc="<body bgcolor=blue>"></frameset><frame srcdoc="<body bgcolor=red>"></frameset>`],
+["Çerçeveye link (target)","Soldaki sayfadaki linkler sağdaki çerçevede açılsın: <code>target</code> değeri çerçevenin <code>name</code>’i olur.",
+`<!-- sayfa1.htm -->
+<body bgcolor="orange">
+<a href="sayfa2.htm" target="2">yazı</a><br>
+<a href="sayfa3.htm" target="2">resim</a>
+</body>`,"n"],
+["Meta etiketleri","<code>head</code> içinde sayfa bilgisi verir; arama motorları önce <code>title</code>’a, sonra meta’ya, en son metne bakar. <code>refresh</code> ile belli süre sonra başka sayfaya yönlendirilir.",
+`<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Keywords" content="frame, font etiketi">
+<meta name="Author" content="Ali Su">
+<meta http-equiv="refresh" content="5;URL=http://www.google.com">`,"n"],
+["Arka plan resmi","<code>background</code> ile verilir. Tekrar etmesin/etsin diye parametre araştırmak ödevdi: HTML’de eski karşılığı yok, CSS’te <code>background-repeat</code> kullanılır (Lab 3).",
+`<body background="resim.jpg"></body>`,"n"],
+["Yatay çizgi (hr)","Kalınlık <code>size</code>, uzunluk <code>width</code>, renk <code>color</code>, gölgesiz <code>noshade</code>.",
+`ÇİZGİDEN ÖNCEKİ YAZI
+<hr width="300" color="#FF0000" size="4" noshade="noshade"/>
+ÇİZGİDEN SONRAKİ YAZI`],
+["Paragraf hizalama","<code>align</code>: <code>right</code>, <code>center</code>, <code>left</code>, <code>justify</code> (iki yana yaslı).",
+`<p align="right">Sağa yaslı paragraf. Sağa yaslı paragraf.</p>
+<p align="center">Ortalı paragraf. Ortalı paragraf.</p>
+<p align="justify">Her iki tarafa yaslı paragraf. Her iki tarafa yaslı paragraf. Her iki tarafa yaslı paragraf. Her iki tarafa yaslı paragraf.</p>`],
+["Üst / alt simge ve özel karakter","<code>sub</code> alt simge, <code>sup</code> üst simge, <code>&amp;pi;</code> özel karakter.",
+`Suyun Kimyasal Formülü H<sub>2</sub>O<br>
+Dairenin Alan Formülü = &pi; r<sup>2</sup>`],
+["Müzik ekleme (embed)","Ses dosyası sayfaya oynatıcı olarak eklenir.",
+`<embed src="muzik1.mp3" />`,"n"],
+["Kayan yazı (marquee)","<code>behavior</code>, <code>direction</code> (up/down/left/right), <code>scrolldelay</code>, <code>loop</code>.",
+`<marquee behavior="scroll" direction="up" scrolldelay="200" loop="2"
+  style="border:dashed; width:200px; height:120px">
+<a href="http://www.karabuk.edu.tr">Karabük Üniversitesi</a>
+</marquee>`]
+]],
+["Lab 3 · CSS",[
+["CSS nedir, 3 kullanım yolu","CSS (Cascading Style Sheets) görünümü HTML’den ayırır; tek yerden tüm siteyi değiştirmeyi sağlar. <b>Yerel (satır içi)</b>: etiketin <code>style</code> özelliği, sadece orada geçerli. <b>Genel (sayfa içi)</b>: <code>head</code> içinde <code>&lt;style&gt;</code>. <b>Harici</b>: <code>.css</code> dosyası, <code>&lt;link&gt;</code> ile çağrılır. Öncelik: satır içi &gt; sayfa içi &gt; harici. Yorum: <code>/* … */</code>.",
+`<style>
+h3{font-size:22pt;color:teal}   /* sayfa içi */
+</style>
+<h3>Sayfa içi stil</h3>
+<h3 style="color:red;font-size:15pt">Satır içi stil</h3>
+<!-- harici: <link rel="stylesheet" type="text/css" href="sablon.css"> -->`],
+["Seçiciler: etiket, id, class, *","Yazım: <code>seçici{özellik:değer; özellik:değer}</code>. <code>#id</code> tek elemana, <code>.sinif</code> birçok elemana, <code>p.sinif</code> sadece o etikete, <code>*</code> hepsine, <code>h1,h2,p{}</code> gruplama, <code>.marked p</code> iç içe seçim, <code>input[type=&quot;text&quot;]</code> özelliğe göre seçim.",
+`<style>
+#bolum1{font-size:20pt;color:red}
+.ortala{text-align:center}
+p.ozel{background:#e0ffff}
+.marked{background:red}
+.marked p{color:white}
+</style>
+<div id="bolum1">id ile</div>
+<h3 class="ortala">class ile ortalı</h3>
+<p class="ozel">p.ozel</p>
+<div class="marked"><p>iç içe seçici</p></div>`],
+["Renk ve arka plan","Renk: ad, <code>#rrggbb</code>, <code>rgb()</code>, <code>rgba()</code> (alfa = şeffaflık). Arka plan: <code>background-color</code>, <code>background-image:url()</code>, <code>background-repeat</code> (repeat-x, no-repeat), <code>background-position</code>, <code>background-attachment:fixed</code>, <code>opacity</code>.",
+`<style>
+body{background-color:#b0c4de}
+h1{background-color:#6495ed;color:rgb(255,255,255)}
+p{background-color:rgba(255,0,0,.3)}
+</style>
+<h1>Başlık</h1><p>Yarı şeffaf kırmızı arka plan</p>`],
+["Metin özellikleri","<code>text-align</code>, <code>text-decoration</code> (none, underline, overline, line-through), <code>text-transform</code> (uppercase, lowercase, capitalize), <code>text-indent</code>, <code>font-family</code>, <code>font-style</code>, <code>font-weight</code>.",
+`<style>
+h2{text-align:center;text-decoration:underline}
+.u{text-transform:uppercase}
+.g{text-indent:50px;font-style:italic;font-family:Georgia,serif}
+</style>
+<h2>Ortalı ve altı çizili</h2>
+<p class="u">büyük harf olacak</p>
+<p class="g">girintili ve italik yazı</p>`],
+["Font boyutu: px, em, %","Mutlak (<code>px</code>) tam kontrol verir; göreceli (<code>em</code>) kullanıcı ayarına uyar. <code>em = px/16</code>. Tüm tarayıcılarda sorunsuz yöntem: <code>body</code>’ye <code>%100</code>, geri kalanına <code>em</code> vermek. Paragrafı başlık gibi göstermek için değil, uygun etiketi (h1–h6, p) kullanın.",
+`<style>
+body{font-size:100%}
+h1{font-size:2.5em}  /* 40px */
+h2{font-size:1.875em}/* 30px */
+p{font-size:.875em}  /* 14px */
+</style>
+<h1>h1</h1><h2>h2</h2><p>paragraf</p>`],
+["Link durumları","Sıra önemli: <code>link → visited → hover → active</code>. Alt çizgiyi kaldırmak için <code>text-decoration:none</code>.",
+`<style>
+a:link{color:#ff0000}
+a:visited{color:#00aa00}
+a:hover{color:#ff00ff;text-decoration:underline;background:#ffff99}
+a:active{color:#0000ff}
+a{text-decoration:none}
+</style>
+<a href="#">Üzerine gel</a>`],
+["Liste ve tablo stilleri","<code>list-style-type</code> (circle, square, upper-roman, lower-alpha), <code>list-style-image</code>. Tabloda <code>border</code>, çift çizgiyi tek yapan <code>border-collapse:collapse</code>, <code>padding</code>, <code>text-align</code>, <code>vertical-align</code>.",
+`<style>
+ul{list-style-type:square}
+ol{list-style-type:upper-roman}
+table{border-collapse:collapse}
+th,td{border:1px solid green;padding:8px;text-align:center}
+th{background:green;color:white}
+</style>
+<ul><li>kare</li><li>kare</li></ul>
+<ol><li>roman</li><li>roman</li></ol>
+<table><tr><th>Ad</th><th>Not</th></tr><tr><td>Ali</td><td>90</td></tr></table>`],
+["Kutu modeli (box model)","Her eleman bir kutudur: dıştan içe <b>margin</b> (dış boşluk, şeffaf) → <b>border</b> → <b>padding</b> (iç boşluk) → <b>content</b>. <code>width/height</code> sadece içeriği belirler. Toplam genişlik = width + sol/sağ padding + sol/sağ border + sol/sağ margin. Örnek: 250+20+10+20 = <b>300px</b>.",
+`<style>
+div{width:220px;padding:10px;border:5px solid gray;margin:10px;background:#ffffcc}
+</style>
+<div>220 + 20 + 10 + 20 = 270px yer kaplar</div>`],
+["Border, outline, margin, padding","<code>border-style</code> şarttır (none, dotted, dashed, solid, double, groove, ridge, inset, outset), ayrıca <code>border-width</code>, <code>border-color</code>, <code>border-radius</code>. Kısa yazım <code>border:5px solid red</code>. <code>outline</code> kenarlığın dışındadır, boyuta katılmaz. Margin/padding 1–4 değer alır: <code>25px 50px 75px 100px</code> = üst, sağ, alt, sol; 2 değer = üst-alt, sağ-sol. <code>margin:auto</code> ortalar.",
+`<style>
+.k{border:3px double blue;border-radius:12px;outline:2px dashed red;
+   margin:20px auto;padding:10px 30px;width:60%;text-align:center}
+</style>
+<div class="k">border + outline + margin:auto + padding</div>`],
+["Position ve z-index","<code>static</code> varsayılan; <code>relative</code> normal yerine göre kayar; <code>absolute</code> en yakın konumlu atasına göre, akıştan çıkar; <code>fixed</code> pencereye göre sabit; <code>sticky</code> kaydırırken yapışır. top/left/right/bottom ancak position verilince çalışır. <code>z-index</code> büyük olan öne geçer.",
+`<style>
+.s{position:relative;height:110px;background:#eef}
+.a{position:absolute;left:20px;top:20px;width:90px;height:60px;background:orange;z-index:1}
+.b{position:absolute;left:60px;top:40px;width:90px;height:60px;background:dodgerblue;z-index:2}
+</style>
+<div class="s"><div class="a">z=1</div><div class="b">z=2</div></div>`],
+["Display, visibility, float, clear","<code>display:none</code> yer kaplamadan gizler, <code>visibility:hidden</code> yeri korur. Blok eleman (h1, p, div) satırı doldurur; satır içi (span, a) sadece gerektiği kadar. <code>float</code> elemanı sola/sağa iter, sonrası etrafından akar; <code>clear:both</code> akışı durdurur.",
+`<style>
+.f{float:left;width:60px;height:60px;margin:5px;background:tomato}
+.c{clear:both}
+li{display:inline;margin-right:8px}
+</style>
+<div class="f"></div><div class="f"></div><div class="f"></div>
+<p class="c">clear:both ile alta indi</p>
+<ul><li>satır</li><li>içi</li><li>liste</li></ul>`],
+["Yatay hizalama","Blok elemanı ortalamak: <code>margin-left/right:auto</code> + width. Sağa yaslamak: <code>position:absolute; right:0</code> ya da <code>float:right</code>. Eski IE için <code>!DOCTYPE</code> yazın.",
+`<style>
+.m{margin:0 auto;width:70%;background:#b0e0e6;text-align:center}
+.r{float:right;width:120px;background:#ffd1d1}
+</style>
+<div class="m">margin:auto ile ortalı</div>
+<div class="r">float:right</div>`],
+["Pseudo-class","<code>seçici:durum{}</code>: <code>:hover</code>, <code>:first-child</code>, <code>:lang()</code> gibi.",
+`<style>
+p:first-child{color:blue}
+p > i:first-child{color:red}
+q:lang(no){quotes:"~" "~"}
+</style>
+<p>İlk paragraf <i>italik</i> <i>ikinci</i></p>
+<p>İkinci paragraf</p>
+<p>Alıntı <q lang="no">norveççe</q></p>`],
+["Gezinti çubuğu (navigation bar)","Liste + CSS: madde işaretini kaldır, margin/padding sıfırla. Dikey: <code>a{display:block;width:..}</code>. Yatay: <code>li{display:inline}</code> ya da eşit genişlik için <code>li{float:left}</code> + <code>a{display:block;width:60px}</code>.",
+`<style>
+ul{list-style-type:none;margin:0;padding:0;overflow:hidden;background:#333}
+li{float:left}
+a{display:block;width:80px;padding:10px;color:#fff;text-decoration:none;text-align:center}
+a:hover{background:#4f46e5}
+</style>
+<ul><li><a href="#">HOME</a></li><li><a href="#">NEWS</a></li><li><a href="#">FORUM</a></li><li><a href="#">ABOUT</a></li></ul>`],
+["Açılır menü (dropdown)","Gizli içerik <code>display:none</code>, üzerine gelince (<code>:hover</code>) <code>display:block</code> olur. Dış kutu <code>position:relative</code>, açılan kısım <code>position:absolute</code>.",
+`<style>
+.dd{position:relative;display:inline-block}
+.dd button{padding:10px 16px;background:#4f46e5;color:#fff;border:0}
+.ic{display:none;position:absolute;background:#f1f1f1;min-width:140px;box-shadow:0 8px 16px #0003}
+.ic a{display:block;padding:10px;color:#000;text-decoration:none}
+.ic a:hover{background:#ddd}
+.dd:hover .ic{display:block}
+</style>
+<div class="dd"><button>Menü ▾</button>
+<div class="ic"><a href="#">Bağlantı 1</a><a href="#">Bağlantı 2</a></div></div>`,"",""],
+["Resim galerisi ve şeffaflık","Galeri: her resim <code>div.img</code> içinde <code>float:left</code>. Şeffaflık: <code>opacity:0.4</code> (0–1; eski IE: <code>filter:alpha(opacity=40)</code>); hover’da <code>opacity:1</code>. Resim yerine renkli kutu kullanıldı.",
+`<style>
+.img{float:left;margin:4px;border:1px solid blue;text-align:center;width:100px}
+.img i{display:block;height:70px;opacity:.4;transition:.2s}
+.img:hover i{opacity:1}
+</style>
+<div class="img"><i style="background:purple"></i>Klematis 1</div>
+<div class="img"><i style="background:crimson"></i>Klematis 2</div>
+<div class="img"><i style="background:teal"></i>Klematis 3</div>`],
+["Form ve input stillendirme","<code>form</code> veriyi sunucuya gönderir. <code>input type</code>: text, password, radio (tek seçim), checkbox (çoklu), submit, button, reset. Ayrıca textarea, select/option, label, fieldset/legend. CSS’te <code>input[type=&quot;text&quot;]</code> gibi özellik seçicisi kullanılır.",
+`<style>
+input[type="text"]{width:150px;display:block;margin-bottom:10px;background:yellow}
+</style>
+<form>
+Ad:<input type="text" value="Peter">
+Soyad:<input type="text" value="Griffin">
+<input type="radio" name="s">Erkek <input type="radio" name="s">Kadın<br>
+<input type="checkbox">Bisiklet <input type="checkbox">Araba<br>
+<input type="password" placeholder="şifre"> <input type="submit" value="Gönder">
+</form>`],
+["Iframe","Sayfa içinde sayfa gösterir: <code>src</code>, <code>width/height</code>, <code>frameborder=&quot;0&quot;</code>; linkin <code>target</code>’ı iframe’in <code>name</code>’ine eşitse link orada açılır.",
+`<iframe name="if_a" src="about:blank" width="200" height="80" frameborder="0" style="border:1px solid #999"></iframe>
+<p><a href="https://example.com" target="if_a">iframe’de aç</a></p>`],
+["Site yerleşimi (layout)","Klasik düzen: header, navigation bar, content, footer; ekrana göre uyum için <code>@media (max-width:600px)</code> ile sütunlar alt alta dizilir (responsive).",
+`<style>
+*{box-sizing:border-box;margin:0}
+header,footer{background:#4f46e5;color:#fff;padding:10px;text-align:center}
+.w{display:flex;flex-wrap:wrap}
+nav{background:#ddd;width:25%;padding:10px}
+section{background:#f4f4f4;width:75%;padding:10px}
+@media (max-width:600px){nav,section{width:100%}}
+</style>
+<header>Header</header>
+<div class="w"><nav>Menü</nav><section>İçerik</section></div>
+<footer>Footer</footer>`]
+]],
+["Lab 4 · JavaScript",[
+["JavaScript nedir, nasıl çalışır","Tarayıcıda çalışan, yorumlanan (derlenmeyen) programlama dilidir; sayfaları dinamik yapar, olayları algılar, içeriği değiştirir, formu sunucuya göndermeden doğrular, çerez okur/yazar. Java ile alakası yoktur. Kod <code>&lt;script&gt;</code> içine yazılır; <code>head</code> veya <code>body</code>’de olabilir (fonksiyonlar çoğunlukla head’de). Dışarıdan: <code>&lt;script src=&quot;dosya.js&quot;&gt;</code>. Yorum: <code>//</code> ve <code>/* */</code>.",
+`<script type="text/javascript">
+// tek satır yorum
+document.write("Merhaba Dünya!");
+<\/script>`],
+["Değişkenler ve operatörler","<code>var</code> ile tanımlanır; büyük/küçük harf duyarlıdır. Aritmetik <code>+ - * / % ++ --</code>, atama <code>= += -=</code>, karşılaştırma <code>== === != &lt; &gt;</code>, mantıksal <code>&amp;&amp; || !</code>, koşullu <code>?:</code>. String + sayı = string olur.",
+`<script>
+var x = 5, y = "5", ad = "Ali";
+document.write(x + 3, "<br>");      // 8
+document.write(x + y, "<br>");      // 55 (string birleştirme)
+document.write(x == y, " ", x === y, "<br>"); // true false
+document.write((x > 3 && x < 10) ? "aralıkta" : "dışında");
+<\/script>`],
+["if / else if / else","Koşula göre kod çalıştırır.",
+`<script>
+var saat = new Date().getHours();
+if (saat < 12) document.write("Günaydın");
+else if (saat < 18) document.write("İyi günler");
+else document.write("İyi akşamlar");
+<\/script>`],
+["switch","Tek değişkenin birçok değerini kontrol eder; <code>break</code> unutulursa sonraki case de çalışır.",
+`<script>
+var gun = new Date().getDay();
+switch (gun) {
+  case 0: document.write("Pazar"); break;
+  case 6: document.write("Cumartesi"); break;
+  default: document.write("Hafta içi");
+}
+<\/script>`],
+["Açılır kutular: alert, confirm, prompt","<code>alert</code> bilgi, <code>confirm</code> Tamam/İptal (true/false), <code>prompt</code> kullanıcıdan değer alır. Önizleme “Çalıştır” ile açılır.",
+`<script>
+alert("Merhaba!\\nİkinci satır");
+if (confirm("Devam edilsin mi?")) {
+  var ad = prompt("Adın nedir?", "Ali");
+  document.write("Selam " + ad);
+}
+<\/script>`,"r"],
+["Fonksiyonlar","<code>function ad(parametre){…}</code>; <code>return</code> değer döndürür. Fonksiyon içindeki <code>var</code> yereldir; dışarıdakiler genel kalır. Olaya bağlanıp çağrılır.",
+`<script>
+function topla(a, b) { return a + b; }
+function selamla(ad) { alert("Merhaba " + ad); }
+<\/script>
+<button onclick="selamla('Mustafa')">Selamla</button>
+<button onclick="document.getElementById('s').innerHTML = topla(4, 6)">4+6</button>
+<span id="s"></span>`],
+["Döngüler: for, while, do-while","<code>for(başla; koşul; artış)</code>; <code>while</code> önce koşula bakar, <code>do…while</code> en az bir kez çalışır. <code>break</code> döngüden çıkar, <code>continue</code> o turu atlar.",
+`<script>
+for (var i = 0; i <= 5; i++) {
+  if (i == 3) continue;       // 3'ü atla
+  document.write("for: " + i + "<br>");
+}
+var n = 0;
+while (n < 3) { document.write("while: " + n + "<br>"); n++; }
+do { document.write("do: " + n + "<br>"); n--; } while (n > 2);
+<\/script>`],
+["Hata yakalama: try / catch / throw","Hata olursa program durmaz; <code>catch</code> bloğu çalışır. <code>throw</code> kendi hatanı fırlatır; <code>finally</code> her durumda çalışır.",
+`<script>
+try {
+  var x = prompt("0-10 arası sayı", "15");
+  if (x > 10) throw "Çok büyük";
+  document.write("Tamam: " + x);
+} catch (err) {
+  document.write("Hata: " + err);
+}
+<\/script>`,"r"],
+["String, Date, Array, Math, Boolean","String: <code>length</code>, <code>toUpperCase()</code>, <code>indexOf()</code>, <code>substr()</code>. Date: <code>new Date()</code>, <code>getFullYear()</code>, <code>getMonth()</code> (0–11), <code>getDay()</code>. Array: <code>new Array()</code>, <code>sort()</code>, <code>concat()</code>, <code>length</code>. Math: <code>round</code>, <code>random</code>, <code>max</code>, <code>min</code>, <code>PI</code>, <code>sqrt</code>.",
+`<script>
+var s = "Merhaba Dünya";
+document.write(s.length + " " + s.toUpperCase() + "<br>");
+var d = new Date();
+document.write(d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear() + "<br>");
+var a = ["tim", "kim", "jim"];
+document.write(a.sort() + " | uzunluk " + a.length + "<br>");
+document.write(Math.round(7.25) + " " + Math.max(2, 9) + " " + Math.floor(Math.random() * 10));
+<\/script>`],
+["DOM ve olaylar","<code>document.getElementById()</code> ile etiketi bulup <code>innerHTML</code> / <code>style</code> değiştirirsin. Olaylar: <code>onclick</code>, <code>onmouseover</code>, <code>onmouseout</code>, <code>onload</code>, <code>onchange</code>, <code>onsubmit</code>.",
+`<h3 id="b" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">Üzerime gel</h3>
+<button onclick="document.getElementById('b').innerHTML='Değişti!'">Metni değiştir</button>`],
+["Form doğrulama (validation)","Form sunucuya gitmeden kontrol edilir; <code>onsubmit</code> içinde <code>false</code> dönerse gönderim iptal olur.",
+`<script>
+function kontrol(f) {
+  if (f.mail.value.indexOf("@") < 1) {
+    document.getElementById("hata").innerHTML = "Geçerli e-posta girin";
+    return false;
+  }
+  document.getElementById("hata").innerHTML = "Tamam ✓";
+  return false; // demo: gönderme
+}
+<\/script>
+<form onsubmit="return kontrol(this)">
+E-posta: <input name="mail"> <input type="submit" value="Gönder">
+<b id="hata" style="color:crimson"></b>
+</form>`],
+["Zamanlama olayları","<code>setTimeout(fonk, ms)</code> bir kez, <code>setInterval(fonk, ms)</code> tekrar tekrar çalıştırır; <code>clearInterval()</code> durdurur. Saat örneği:",
+`<div id="saat" style="font-size:28px"></div>
+<script>
+function guncelle() {
+  document.getElementById("saat").innerHTML = new Date().toLocaleTimeString();
+}
+guncelle();
+setInterval(guncelle, 1000);
+<\/script>`],
+["Nesneler (Objects)","Özellik ve metotları olan veri yapısıdır; <code>nesne.ozellik</code> ile erişilir.",
+`<script>
+var kisi = {ad: "Ali", yas: 20, tanit: function () { return this.ad + " " + this.yas + " yaşında"; }};
+document.write(kisi.tanit());
+<\/script>`]
+]]
+];
+var nav=document.getElementById("nav"),app=document.getElementById("app"),q=document.getElementById("q"),cur=0;
+var RENK="siyah:000000,lacivert:000080,mavi:0000ff,yeşil:008000,koyu yeşil (teal):008080,parlak yeşil (lime):00ff00,turkuaz (aqua):00ffff,vişne çürüğü:800000,mor:800080,zeytin yeşili:808000,gri:808080,gümüş:c0c0c0,kırmızı:ff0000,parlak pembe (fuchsia):ff00ff,sarı:ffff00,beyaz:ffffff".split(",");
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function doc(c){return /<html|<frameset/i.test(c)?c:'<meta charset="utf-8"><body style="font-family:serif;margin:10px">'+c}
+function mk(e,i){
+  var c=document.createElement("div");c.className="card";c.dataset.s=(e[0]+e[1]+(e[2]||"")).toLowerCase();
+  var h='<h3>'+e[0]+'</h3><p>'+e[1]+'</p>';
+  if(e[2]==="colors"){
+    h+='<div class="sw">'+RENK.map(function(r){var p=r.split(":");return '<div><i style="background:#'+p[1]+'"></i><b>'+p[0]+'</b><u>#'+p[1]+'</u></div>'}).join("")+'</div>';c.innerHTML=h;return c;
+  }
+  h+='<div class="cw"><button class="cp">Kopyala</button><pre>'+esc(e[2])+'</pre></div>';
+  if(e[3]!=="n"){
+    h+='<div class="pl">ÖNİZLEME '+(e[3]==="r"?'<button>▶ Çalıştır</button>':'')+'</div><div class="pv"></div>';
+  }
+  c.innerHTML=h;
+  c.querySelector(".cp").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(e[2]);this.textContent="Kopyalandı ✓";var b=this;setTimeout(function(){b.textContent="Kopyala"},1200)};
+  var pv=c.querySelector(".pv");
+  if(pv){
+    var go=function(){
+      var f=document.createElement("iframe");
+      f.setAttribute("sandbox","allow-scripts allow-modals");
+      f.style.height=(e[4]?"230px":(/marquee|frameset|dropdown|menu/i.test(e[0]+e[2])?"170px":"150px"));
+      f.srcdoc=doc(e[4]||e[2]);pv.innerHTML="";pv.appendChild(f);
+    };
+    if(e[3]==="r"){c.querySelector(".pl button").onclick=go;pv.innerHTML='<div style="color:var(--mu);font-size:.85rem">Çalıştır’a basınca açılır.</div>'}else go();
+  }
+  return c;
+}
+function show(){
+  var k=T[cur],t=q.value.trim().toLowerCase();app.innerHTML="";
+  if(t===""&&cur===3)app.innerHTML='<div class="tip">JavaScript HTML’i canlı değiştirir. Aşağıdaki örneklerde kodu okuyup önizlemede çalıştırarak dene.</div>';
+  k[1].forEach(function(e,i){var c=mk(e,i);if(!t||c.dataset.s.indexOf(t)>-1)app.appendChild(c)});
+  if(!app.children.length)app.innerHTML='<div class="tip">Sonuç yok. Başka bir kelime dene.</div>';
+}
+T.forEach(function(k,i){var b=document.createElement("button");b.textContent=k[0];b.onclick=function(){cur=i;[].forEach.call(nav.children,function(x,j){x.className=j==i?"on":""});show();window.scrollTo(0,0)};nav.appendChild(b)});
+q.oninput=show;nav.children[0].click();
+</script>
+</body>
+</html>
